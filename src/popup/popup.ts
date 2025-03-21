@@ -238,7 +238,7 @@ function initializeConverter() {
                 time_24hr: true,
                 defaultDate: date,
                 dateFormat: 'Y-m-d H:i:S',
-                onChange: function(selectedDates: Date[]) {
+                onValueUpdate: function(selectedDates: Date[], dateStr: string, instance: any) {
                     if (selectedDates.length > 0) {
                         const selectedDate = selectedDates[0];
                         yearInput.value = selectedDate.getFullYear().toString();
@@ -249,6 +249,27 @@ function initializeConverter() {
                         secondInput.value = selectedDate.getSeconds().toString().padStart(2, '0');
                         
                         calculateTimestampFromDate();
+                    }
+                },
+                onChange: function(selectedDates: Date[], dateStr: string, instance: any) {
+                    if (selectedDates.length > 0) {
+                        // Check if the user clicked on the calendar date (not using time controls)
+                        // This is a simple way to detect if the user clicked the date
+                        if (instance.currentYear && instance.currentMonth !== undefined) {
+                            // If date was selected, set time to 00:00:00
+                            const selectedDate = selectedDates[0];
+                            selectedDate.setHours(0, 0, 0);
+                            instance.setDate(selectedDate, false);
+                            
+                            yearInput.value = selectedDate.getFullYear().toString();
+                            monthInput.value = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+                            dayInput.value = selectedDate.getDate().toString().padStart(2, '0');
+                            hourInput.value = '00';
+                            minuteInput.value = '00';
+                            secondInput.value = '00';
+                            
+                            calculateTimestampFromDate();
+                        }
                     }
                 }
             });
