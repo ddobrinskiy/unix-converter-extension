@@ -218,13 +218,16 @@ function initializeConverter() {
         secondInput: HTMLInputElement
     ) {
         try {
-            // Set initial date from inputs
-            const year = parseInt(yearInput.value) || new Date().getFullYear();
-            const month = (parseInt(monthInput.value) || 1) - 1; // 0-indexed
-            const day = parseInt(dayInput.value) || 1;
-            const hour = parseInt(hourInput.value) || 0;
-            const minute = parseInt(minuteInput.value) || 0;
-            const second = parseInt(secondInput.value) || 0;
+            // Get current date for fallback
+            const currentDate = new Date();
+            
+            // Set initial date from inputs with proper fallbacks to current date
+            const year = parseInt(yearInput.value) || currentDate.getFullYear();
+            const month = (parseInt(monthInput.value) || (currentDate.getMonth() + 1)) - 1; // 0-indexed
+            const day = parseInt(dayInput.value) || currentDate.getDate();
+            const hour = parseInt(hourInput.value) || currentDate.getHours();
+            const minute = parseInt(minuteInput.value) || currentDate.getMinutes();
+            const second = parseInt(secondInput.value) || currentDate.getSeconds();
             
             const date = new Date(year, month, day, hour, minute, second);
             
