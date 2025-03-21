@@ -1,0 +1,173 @@
+# Unix Timestamp Converter Chrome Extension
+
+## Project Overview
+
+This Chrome extension converts between Unix timestamps and human-readable dates. It features a bidirectional converter that allows users to:
+
+1. Enter a Unix timestamp and see the date in different formats
+2. Enter a date/time and see the corresponding Unix timestamp
+3. Use a calendar widget for easy date selection
+
+## Key Functionalities
+
+- Real-time conversion as users type
+- Automatic copy to clipboard of generated timestamps
+- Visual copy notification
+- Multiple date formats (GMT, local time, relative time)
+- Calendar widget for visual date selection
+- Copy buttons for all displayed values
+
+## Project Structure
+
+```
+unix-converter-extension/
+├── dist/                       # Build output directory (generated)
+│   ├── popup/                  # Popup UI files
+│   │   ├── vendor/             # Third-party libraries
+│   │   │   ├── flatpickr.min.js  # Calendar widget library
+│   │   │   └── flatpickr.min.css # Calendar widget styles
+│   │   ├── index.html          # Main popup HTML
+│   │   ├── popup.js            # Compiled TypeScript
+│   │   └── styles.css          # UI styles
+│   └── manifest.json           # Extension manifest
+├── src/                        # Source code
+│   └── popup/                  # Popup UI source
+│       ├── vendor/             # Third-party libraries
+│       │   ├── flatpickr.min.js  # Calendar widget library
+│       │   └── flatpickr.min.css # Calendar widget styles  
+│       ├── index.html          # Main popup HTML
+│       ├── popup.ts            # TypeScript source
+│       └── styles.css          # CSS styles
+├── manifest.json               # Extension manifest (source)
+├── package.json                # Project configuration
+├── tsconfig.json               # TypeScript configuration
+└── Makefile                    # Build commands
+```
+
+## Technical Implementation
+
+### HTML Structure (src/popup/index.html)
+
+The UI consists of three main sections:
+1. **Timestamp to Date Converter**
+   - Input field for Unix timestamp
+   - Output displays for GMT, local time, and relative time
+   - Copy buttons for each result
+
+2. **Date to Timestamp Converter**
+   - Input fields for year, month, day, hour, minute, second
+   - Output of generated Unix timestamp
+   - Auto-copy indicator and copy button
+
+3. **Calendar**
+   - A visual date picker powered by Flatpickr
+   - Synced with the date input fields
+   - Calendar selection updates the timestamp
+
+### TypeScript Implementation (src/popup/popup.ts)
+
+The main functionality is implemented in TypeScript with the following key components:
+
+1. **Initialization**
+   - DOM element references acquisition
+   - Event listener setup
+   - Calendar widget initialization
+   - Default value population (current date/time)
+
+2. **Converter Functions**
+   - `calculateDateFromTimestamp()`: Converts Unix timestamp to date formats
+   - `calculateTimestampFromDate()`: Converts date inputs to Unix timestamp
+   - `getRelativeTime()`: Generates human-readable relative time
+
+3. **UI Features**
+   - Auto-copy functionality with `navigator.clipboard.writeText()`
+   - Notification system
+   - Copy button handlers
+   - Input validation with error handling
+   - Real-time updates on input changes
+
+4. **Calendar Integration**
+   - Inline Flatpickr calendar
+   - Two-way binding with form inputs
+   - Error handling with fallback message
+
+### CSS Styling (src/popup/styles.css)
+
+The CSS implements:
+- Clean, modern UI with consistent spacing
+- Responsive layout within the popup dimensions
+- Visual feedback (hover states, focus states)
+- Styling for the calendar widget
+- Custom styling for notifications and indicators
+
+### Chrome Extension Integration
+
+- Uses Manifest v3
+- Local script loading (no external dependencies in runtime)
+- Content Security Policy for secure execution
+- Clipboard permissions for copy functionality
+
+## Build Process
+
+The extension is built using:
+- TypeScript compilation
+- File copying (HTML, CSS, vendor files)
+- Directory structure generation
+
+The build process is defined in:
+- `package.json`: npm scripts for building
+- `Makefile`: convenient make commands
+
+## Development Notes
+
+### Content Security Policy
+
+The extension uses a local copy of Flatpickr because Chrome extensions have strict CSP that prevents loading scripts from CDNs. The manifest includes:
+
+```json
+"content_security_policy": {
+  "extension_pages": "script-src 'self'; object-src 'self'"
+}
+```
+
+### Clipboard Access
+
+The extension needs the `clipboardWrite` permission to copy text to clipboard:
+
+```json
+"permissions": ["clipboardWrite"]
+```
+
+### Calendar Initialization
+
+The calendar is initialized with error handling to gracefully handle any issues with Flatpickr in the Chrome extension environment.
+
+## Current Status & Issues
+
+- The extension works correctly in standard web browsers
+- In Chrome extension mode, it properly handles timestamps and date conversions
+- The calendar is implemented using local Flatpickr files to comply with CSP
+- Auto-copy functionality notifies users when timestamps are copied
+
+## Future Enhancements
+
+Potential enhancements include:
+- Support for additional timestamp formats (milliseconds, etc.)
+- Dark mode support
+- Saved history of recently converted timestamps
+- Extension options page for customization
+- More advanced date/time formatting options
+
+## Usage Instructions
+
+1. Click the extension icon to open the popup
+2. Enter a Unix timestamp to convert to date formats
+3. Use the date input fields or calendar to select a date and generate a timestamp
+4. Copy values using the clipboard buttons
+5. Timestamps are automatically copied when generated from date inputs
+
+## Technical Requirements
+
+- Chrome browser
+- TypeScript compiler for development
+- npm for development dependencies 
