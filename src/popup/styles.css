@@ -78,6 +78,13 @@ input:focus {
     font-size: 16px;
 }
 
+/* Special styling for timestamp value */
+#unix-timestamp {
+    font-family: monospace;
+    color: #2e8b57; /* Sea Green color */
+    font-weight: 500;
+}
+
 .copy-btn {
     background: transparent;
     color: #333;
@@ -137,5 +144,5 @@ input:focus {
     font-size: 14px;
     color: #666;
     font-style: italic;
-    margin-left: 4px;
+    margin-left: 8px;
 } 
