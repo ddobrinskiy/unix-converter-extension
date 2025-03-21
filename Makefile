@@ -27,6 +27,11 @@ watch:
 zip: build
 	cd dist && zip -r ../unix-timestamp-converter.zip *
 
+# open in browser
+open:
+	open dist/popup/index.html
+	
+
 # Help command
 help:
 	@echo "Available commands:"
