@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Unix Timestamp Converter",
+  "version": "1.0",
+  "description": "Convert between Unix timestamps and human-readable dates",
+  "action": {
+    "default_popup": "./popup/index.html"
+  },
+  "permissions": ["clipboardWrite"]
+} 

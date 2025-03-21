@@ -1,0 +1,15 @@
+{
+  "name": "unix-converter-extension",
+  "version": "1.0.0",
+  "description": "Chrome extension for converting Unix timestamps",
+  "scripts": {
+    "build": "tsc && cp src/popup/index.html dist/popup/ && cp src/popup/styles.css dist/popup/ && cp dist/popup.js dist/popup/ && cp manifest.json dist/",
+    "watch": "tsc -w"
+  },
+  "keywords": ["chrome-extension", "unix-timestamp", "converter"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

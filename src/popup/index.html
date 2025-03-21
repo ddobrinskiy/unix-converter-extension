@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Unix Timestamp Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Unix Timestamp Converter</h1>
+        
+        <div class="converter-section">
+            <h2>Enter a Timestamp</h2>
+            <input type="text" id="timestamp-input" placeholder="Enter Unix timestamp">
+            <p class="hint">Supports Unix timestamps in seconds</p>
+            
+            <div class="results" id="date-results">
+                <div class="result-row">
+                    <span class="label">GMT:</span>
+                    <span class="value" id="gmt-time"></span>
+                    <button class="copy-btn" data-target="gmt-time">📋</button>
+                </div>
+                <div class="result-row">
+                    <span class="label">Your Time:</span>
+                    <span class="value" id="local-time"></span>
+                    <button class="copy-btn" data-target="local-time">📋</button>
+                </div>
+                <div class="result-row">
+                    <span class="label">Relative:</span>
+                    <span class="value" id="relative-time"></span>
+                    <button class="copy-btn" data-target="relative-time">📋</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="converter-section">
+            <h2>Enter a Date & Time</h2>
+            <div class="date-inputs">
+                <input type="number" id="year" placeholder="Year" min="1970">
+                <input type="number" id="month" placeholder="Month" min="1" max="12">
+                <input type="number" id="day" placeholder="Day" min="1" max="31">
+                <input type="number" id="hour" placeholder="Hour" min="0" max="23">
+                <input type="number" id="minute" placeholder="Min" min="0" max="59">
+                <input type="number" id="second" placeholder="Sec" min="0" max="59">
+            </div>
+            
+            <div class="results">
+                <div class="result-row">
+                    <span class="label">Timestamp:</span>
+                    <span class="value" id="unix-timestamp"></span>
+                    <button class="copy-btn" data-target="unix-timestamp">📋</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="copy-notification" id="copy-notification">Copied to clipboard!</div>
+    
+    <script src="popup.js"></script>
+</body>
+</html> 
