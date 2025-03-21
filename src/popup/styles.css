@@ -29,7 +29,7 @@ h2 {
 }
 
 input {
-    width: 100%;
+    width: 90%;
     padding: 8px;
     margin-bottom: 8px;
     border: 1px solid #ddd;
@@ -164,8 +164,7 @@ input:focus {
 .flatpickr-calendar {
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 400px;
     margin: 0 auto;
 }
 
