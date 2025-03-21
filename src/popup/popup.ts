@@ -150,6 +150,15 @@ function initializeConverter() {
             const timestampStr = timestamp.toString();
             unixTimestampOutput.textContent = timestampStr;
             
+            // Update the timestamp input field as well
+            timestampInput.value = timestampStr;
+            
+            // Also update GMT/local/relative time displays
+            const date = new Date(timestamp * 1000);
+            gmtTimeOutput.textContent = date.toUTCString();
+            localTimeOutput.textContent = date.toString();
+            relativeTimeOutput.textContent = getRelativeTime(date);
+            
             // Auto-copy to clipboard
             navigator.clipboard.writeText(timestampStr).then(() => {
                 // Show notification
@@ -165,6 +174,7 @@ function initializeConverter() {
             [yearInput, monthInput, dayInput, hourInput, minuteInput, secondInput].forEach(input => {
                 input.classList.remove('error');
             });
+            timestampInput.classList.remove('error');
         } catch (error) {
             unixTimestampOutput.textContent = '';
             [yearInput, monthInput, dayInput, hourInput, minuteInput, secondInput].forEach(input => {
