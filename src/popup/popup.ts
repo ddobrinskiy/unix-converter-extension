@@ -1,3 +1,6 @@
+// Add type declaration for Flatpickr
+declare const flatpickr: any;
+
 // Log when the script is loaded
 console.log('Popup script loaded');
 
@@ -24,6 +27,7 @@ function initializeConverter() {
     const hourInput = document.getElementById('hour') as HTMLInputElement;
     const minuteInput = document.getElementById('minute') as HTMLInputElement;
     const secondInput = document.getElementById('second') as HTMLInputElement;
+    const calendarContainer = document.getElementById('calendar-container') as HTMLElement;
     
     // Get output elements
     const gmtTimeOutput = document.getElementById('gmt-time') as HTMLElement;
@@ -43,6 +47,7 @@ function initializeConverter() {
             hour: !!hourInput,
             minute: !!minuteInput,
             second: !!secondInput,
+            calendarContainer: !!calendarContainer
         },
         outputs: {
             gmtTime: !!gmtTimeOutput,
@@ -51,6 +56,9 @@ function initializeConverter() {
             unixTimestamp: !!unixTimestampOutput
         }
     });
+    
+    // Initialize the date picker
+    initializeCalendar(calendarContainer, yearInput, monthInput, dayInput, hourInput, minuteInput, secondInput);
     
     // Fill date inputs with current time
     const now = new Date();
@@ -196,6 +204,74 @@ function initializeConverter() {
             
         } catch (err) {
             console.error('Failed to copy text:', err);
+        }
+    }
+    
+    // Initialize calendar
+    function initializeCalendar(
+        container: HTMLElement,
+        yearInput: HTMLInputElement,
+        monthInput: HTMLInputElement,
+        dayInput: HTMLInputElement,
+        hourInput: HTMLInputElement,
+        minuteInput: HTMLInputElement,
+        secondInput: HTMLInputElement
+    ) {
+        try {
+            // Set initial date from inputs
+            const year = parseInt(yearInput.value) || new Date().getFullYear();
+            const month = (parseInt(monthInput.value) || 1) - 1; // 0-indexed
+            const day = parseInt(dayInput.value) || 1;
+            const hour = parseInt(hourInput.value) || 0;
+            const minute = parseInt(minuteInput.value) || 0;
+            const second = parseInt(secondInput.value) || 0;
+            
+            const date = new Date(year, month, day, hour, minute, second);
+            
+            // Initialize the calendar directly in the container
+            const calendar = flatpickr(container, {
+                inline: true,
+                enableTime: true,
+                time_24hr: true,
+                defaultDate: date,
+                dateFormat: 'Y-m-d H:i:S',
+                onChange: function(selectedDates: Date[]) {
+                    if (selectedDates.length > 0) {
+                        const selectedDate = selectedDates[0];
+                        yearInput.value = selectedDate.getFullYear().toString();
+                        monthInput.value = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
+                        dayInput.value = selectedDate.getDate().toString().padStart(2, '0');
+                        hourInput.value = selectedDate.getHours().toString().padStart(2, '0');
+                        minuteInput.value = selectedDate.getMinutes().toString().padStart(2, '0');
+                        secondInput.value = selectedDate.getSeconds().toString().padStart(2, '0');
+                        
+                        calculateTimestampFromDate();
+                    }
+                }
+            });
+            
+            // Watch for changes in the form inputs to update the calendar
+            [yearInput, monthInput, dayInput, hourInput, minuteInput, secondInput].forEach(input => {
+                input.addEventListener('change', () => {
+                    const newYear = parseInt(yearInput.value) || new Date().getFullYear();
+                    const newMonth = (parseInt(monthInput.value) || 1) - 1;
+                    const newDay = parseInt(dayInput.value) || 1;
+                    const newHour = parseInt(hourInput.value) || 0;
+                    const newMinute = parseInt(minuteInput.value) || 0;
+                    const newSecond = parseInt(secondInput.value) || 0;
+                    
+                    const newDate = new Date(newYear, newMonth, newDay, newHour, newMinute, newSecond);
+                    if (!isNaN(newDate.getTime())) {
+                        calendar.setDate(newDate);
+                    }
+                });
+            });
+            
+            console.log('Calendar initialized successfully');
+        } catch (err) {
+            console.error('Error initializing calendar:', err);
+            // Add fallback in case calendar initialization fails
+            container.textContent = 'Calendar could not be loaded. Please use the date/time inputs above.';
         }
     }
 } 
