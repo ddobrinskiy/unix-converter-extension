@@ -1,60 +1,52 @@
 # Unix Timestamp Converter
 
-A Chrome extension that converts between Unix timestamps and human-readable dates.
+A Chrome extension for converting between Unix timestamps and human-readable dates.
 
 ## Features
 
-- Convert Unix timestamps to human-readable dates
-- Convert dates to Unix timestamps
-- Real-time conversion as you type
-- Shows GMT time, local time, and relative time
-- Prefills with current date and time
-- One-click copy to clipboard
-- Clean, minimal design
+- Convert Unix timestamps to dates and vice versa
+- Display time in both UTC and your local timezone
+- Show relative time (e.g., "2 months ago")
+- Calendar interface for easy date selection
+- Auto-copy converted timestamps to clipboard
+- Keyboard shortcut: Shift+Ctrl+U (Windows/Linux) or Shift+Command+U (Mac)
 
 ## Installation
 
-### From Source
+### From Chrome Web Store
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/ddobrinskiy/unix-converter-extension.git
-   cd unix-converter-extension
-   ```
+1. Visit the [Chrome Web Store page](https://chrome.google.com/webstore/detail/unix-timestamp-converter/your-extension-id)
+2. Click "Add to Chrome"
 
-2. Install dependencies:
-   ```bash
-   make install
-   ```
+### Manual Installation
 
-3. Build the extension:
-   ```bash
-   make build
-   ```
-
-4. Load the extension in Chrome:
-   - Open Chrome and navigate to `chrome://extensions/`
-   - Enable "Developer mode" (toggle in the top right)
-   - Click "Load unpacked"
-   - Select the `dist` directory from this project
+1. Download or clone this repository
+2. Navigate to `chrome://extensions/` in Chrome
+3. Enable "Developer mode" (toggle in the top-right corner)
+4. Click "Load unpacked" and select the `dist` folder from this repository
 
 ## Development
 
-- Run in watch mode:
-  ```bash
-  make watch
-  ```
+### Prerequisites
 
-- Clean build artifacts:
-  ```bash
-  make clean
-  ```
+- Node.js and npm
 
-- Create distribution zip file:
-  ```bash
-  make zip
-  ```
+### Setup
+
+```bash
+npm install
+```
+
+### Build
+
+```bash
+make build
+```
 
 ## License
 
-ISC License 
+[MIT](LICENSE) 
+
+## Attribution
+
+<a href="https://www.flaticon.com/free-icons/clock" title="clock icons">Clock icons created by Pongsakorn Sarunsatta - Flaticon</a>
