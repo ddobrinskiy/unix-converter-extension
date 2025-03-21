@@ -126,8 +126,16 @@ input:focus {
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
+    z-index: 1000;
 }
 
 .copy-notification.show {
     opacity: 1;
+}
+
+.auto-copy-indicator {
+    font-size: 14px;
+    color: #666;
+    font-style: italic;
+    margin-left: 8px;
 } 

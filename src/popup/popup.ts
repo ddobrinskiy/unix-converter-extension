@@ -137,7 +137,20 @@ function initializeConverter() {
             }
             
             const timestamp = Math.floor(date.getTime() / 1000);
-            unixTimestampOutput.textContent = timestamp.toString();
+            const timestampStr = timestamp.toString();
+            unixTimestampOutput.textContent = timestampStr;
+            
+            // Auto-copy to clipboard
+            navigator.clipboard.writeText(timestampStr).then(() => {
+                // Show notification
+                copyNotification.textContent = "Timestamp copied to clipboard!";
+                copyNotification.classList.add('show');
+                setTimeout(() => {
+                    copyNotification.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy timestamp:', err);
+            });
             
             [yearInput, monthInput, dayInput, hourInput, minuteInput, secondInput].forEach(input => {
                 input.classList.remove('error');
