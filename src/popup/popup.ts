@@ -60,16 +60,16 @@ function initializeConverter() {
     // Initialize the date picker
     initializeCalendar(calendarContainer, yearInput, monthInput, dayInput, hourInput, minuteInput, secondInput);
     
-    // Fill date inputs with current time
+    // Fill date inputs with current time in UTC/GMT
     const now = new Date();
-    yearInput.value = now.getFullYear().toString();
-    monthInput.value = (now.getMonth() + 1).toString().padStart(2, '0');
-    dayInput.value = now.getDate().toString().padStart(2, '0');
-    hourInput.value = now.getHours().toString().padStart(2, '0');
-    minuteInput.value = now.getMinutes().toString().padStart(2, '0');
-    secondInput.value = now.getSeconds().toString().padStart(2, '0');
+    yearInput.value = now.getUTCFullYear().toString();
+    monthInput.value = (now.getUTCMonth() + 1).toString().padStart(2, '0');
+    dayInput.value = now.getUTCDate().toString().padStart(2, '0');
+    hourInput.value = now.getUTCHours().toString().padStart(2, '0');
+    minuteInput.value = now.getUTCMinutes().toString().padStart(2, '0');
+    secondInput.value = now.getUTCSeconds().toString().padStart(2, '0');
     
-    console.log('Current date values set:', {
+    console.log('Current GMT date values set:', {
         year: yearInput.value,
         month: monthInput.value,
         day: dayInput.value,
@@ -111,8 +111,13 @@ function initializeConverter() {
                 throw new Error('Invalid timestamp');
             }
             
+            // Show the GMT time (using UTC methods)
             gmtTimeOutput.textContent = date.toUTCString();
+            
+            // Show the local time (using local methods)
             localTimeOutput.textContent = date.toString();
+            
+            // Calculate relative time
             relativeTimeOutput.textContent = getRelativeTime(date);
             
             timestampInput.classList.remove('error');
@@ -139,12 +144,9 @@ function initializeConverter() {
         }
         
         try {
-            const date = new Date(year, month, day, hour, minute, second);
-            if (isNaN(date.getTime())) {
-                throw new Error('Invalid date');
-            }
-            
-            const timestamp = Math.floor(date.getTime() / 1000);
+            // Create a UTC/GMT date using the Date.UTC method instead of the local date
+            const utcTimestamp = Date.UTC(year, month, day, hour, minute, second);
+            const timestamp = Math.floor(utcTimestamp / 1000);
             const timestampStr = timestamp.toString();
             unixTimestampOutput.textContent = timestampStr;
             
@@ -238,15 +240,16 @@ function initializeConverter() {
                 time_24hr: true,
                 defaultDate: date,
                 dateFormat: 'Y-m-d H:i:S',
+                utc: true,
                 onValueUpdate: function(selectedDates: Date[], dateStr: string, instance: any) {
                     if (selectedDates.length > 0) {
                         const selectedDate = selectedDates[0];
-                        yearInput.value = selectedDate.getFullYear().toString();
-                        monthInput.value = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
-                        dayInput.value = selectedDate.getDate().toString().padStart(2, '0');
-                        hourInput.value = selectedDate.getHours().toString().padStart(2, '0');
-                        minuteInput.value = selectedDate.getMinutes().toString().padStart(2, '0');
-                        secondInput.value = selectedDate.getSeconds().toString().padStart(2, '0');
+                        yearInput.value = selectedDate.getUTCFullYear().toString();
+                        monthInput.value = (selectedDate.getUTCMonth() + 1).toString().padStart(2, '0');
+                        dayInput.value = selectedDate.getUTCDate().toString().padStart(2, '0');
+                        hourInput.value = selectedDate.getUTCHours().toString().padStart(2, '0');
+                        minuteInput.value = selectedDate.getUTCMinutes().toString().padStart(2, '0');
+                        secondInput.value = selectedDate.getUTCSeconds().toString().padStart(2, '0');
                         
                         calculateTimestampFromDate();
                     }
@@ -256,14 +259,15 @@ function initializeConverter() {
                         // Check if the user clicked on the calendar date (not using time controls)
                         // This is a simple way to detect if the user clicked the date
                         if (instance.currentYear && instance.currentMonth !== undefined) {
-                            // If date was selected, set time to 00:00:00
+                            // If date was selected, set time to 00:00:00 UTC
                             const selectedDate = selectedDates[0];
-                            selectedDate.setHours(0, 0, 0);
+                            // Use UTC hours to ensure it's 00:00:00 in GMT
+                            selectedDate.setUTCHours(0, 0, 0);
                             instance.setDate(selectedDate, false);
                             
-                            yearInput.value = selectedDate.getFullYear().toString();
-                            monthInput.value = (selectedDate.getMonth() + 1).toString().padStart(2, '0');
-                            dayInput.value = selectedDate.getDate().toString().padStart(2, '0');
+                            yearInput.value = selectedDate.getUTCFullYear().toString();
+                            monthInput.value = (selectedDate.getUTCMonth() + 1).toString().padStart(2, '0');
+                            dayInput.value = selectedDate.getUTCDate().toString().padStart(2, '0');
                             hourInput.value = '00';
                             minuteInput.value = '00';
                             secondInput.value = '00';
