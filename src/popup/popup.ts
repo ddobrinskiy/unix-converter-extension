@@ -29,6 +29,12 @@ function initializeConverter() {
     const secondInput = document.getElementById('second') as HTMLInputElement;
     const calendarContainer = document.getElementById('calendar-container') as HTMLElement;
     
+    // Focus on timestamp input when popup opens
+    setTimeout(() => {
+        timestampInput.focus();
+        timestampInput.select();
+    }, 20);
+    
     // Get output elements
     const gmtTimeOutput = document.getElementById('gmt-time') as HTMLElement;
     const localTimeOutput = document.getElementById('local-time') as HTMLElement;
