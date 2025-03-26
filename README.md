@@ -43,6 +43,12 @@ npm install
 make build
 ```
 
+## Roadmap & ToDo
+
+- [ ] add support for millisecond and nanosecond format
+    - [ ] add a picker to choose between them, and use local storage to cache the last user choice
+- [ ] when pasting a timestamp, automatically identify if it's second/millisecond/nanosecond using commons sense heuristics (unlikely to have a date in the far future or past)
+
 ## License
 
 [MIT](LICENSE) 
